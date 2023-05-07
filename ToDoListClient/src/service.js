@@ -1,5 +1,5 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'https://localhost:7271/items';
+axios.defaults.baseURL = process.env.apiUrl;
 axios.create();
 
 export default {
@@ -13,7 +13,7 @@ export default {
     const result = await axios.post(``, { name: name, isComplete: false }).then(function (response) {
       console.log(response)
       return result.data;
-    }).catch(function(error){
+    }).catch(function (error) {
       console.log(error);
     })
   },
@@ -22,7 +22,7 @@ export default {
     const result = await axios.put(`/${id}?isComplete=${isComplete}`).then(function (response) {
       console.log(response)
       return result.data;
-    }).catch(function(error){
+    }).catch(function (error) {
       console.log(error);
     })
   },
@@ -32,7 +32,7 @@ export default {
     const result = await axios.delete(`/${id}`).then(function (response) {
       console.log(response)
       return result.data;
-    }).catch(function(error){
+    }).catch(function (error) {
       console.log(error);
     })
   }
