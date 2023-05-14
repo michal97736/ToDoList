@@ -1,16 +1,24 @@
 import axios from 'axios';
-axios.defaults.baseURL = process.env.apiUrl;
-axios.create();
+import dotenv from 'dotenv';
+
+dotenv.config();
+const apiClient=axios.create({
+  baseURL:process.env.REACT_APP_API_URL
+})
+console.log('process.env.REACT_APP_API_URL', process.env.REACT_APP_API_URL)
+
+//axios.defaults.baseURL = process.env.apiUrl;
+//axios.create();
 
 export default {
   getTasks: async () => {
-    const result = await axios.get(``)
+    const result = await apiClient.get(``)
     return result.data;
   },
 
   addTask: async (name) => {
     // console.log('addTask', name)
-    const result = await axios.post(``, { name: name, isComplete: false }).then(function (response) {
+    const result = await apiClient.post(``, { name: name, isComplete: false }).then(function (response) {
       console.log(response)
       return result.data;
     }).catch(function (error) {
@@ -19,7 +27,7 @@ export default {
   },
 
   setCompleted: async (id, isComplete) => {
-    const result = await axios.put(`/${id}?isComplete=${isComplete}`).then(function (response) {
+    const result = await apiClient.put(`/${id}?isComplete=${isComplete}`).then(function (response) {
       console.log(response)
       return result.data;
     }).catch(function (error) {
@@ -29,7 +37,7 @@ export default {
 
   deleteTask: async (id) => {
     // console.log('deleteTask')
-    const result = await axios.delete(`/${id}`).then(function (response) {
+    const result = await apiClient.delete(`/${id}`).then(function (response) {
       console.log(response)
       return result.data;
     }).catch(function (error) {
@@ -39,7 +47,7 @@ export default {
 
 };
 
-axios.interceptors.response.use(function (response) {
+apiClient.interceptors.response.use(function (response) {
   // Any status code that lie within the range of 2xx cause this function to trigger
   // Do something with response data
   // console.log("OK");
